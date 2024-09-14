@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-        
+
       - name: Install dependencies
         run: |
           sudo apt update
@@ -68,7 +68,7 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
           
-          make package/msd_lite/compile V=s
+          make package/msd_lite/compile V=s -j1
           make package/msd_lite/luci-app-msd_lite/compile V=s
           
           ls
