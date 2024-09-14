@@ -7,7 +7,6 @@ PKG_RELEASE:=1
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/rozhuk-im/msd_lite.git
 PKG_SOURCE_VERSION:=master
-PKG_MIRROR_HASH:=skip
 
 PKG_MAINTAINER:=Your Name <your.email@example.com>
 PKG_LICENSE:=BSD-2-Clause
