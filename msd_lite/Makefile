@@ -33,7 +33,7 @@ endef
 
 define Build/Compile
 	# 使用 OpenWrt 的默认编译方式，通常会调用 make
-	ls $(PKG_BUILD_DIR)
+	ls /home/runner/work/openwrt-msd_lite/openwrt-msd_lite/openwrt-sdk/tmp/dl
 	$(MAKE) -C $(PKG_BUILD_DIR) \
 		CC="$(TARGET_CC)" \
 		CFLAGS="$(TARGET_CFLAGS)" \
