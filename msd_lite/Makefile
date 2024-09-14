@@ -14,6 +14,9 @@ PKG_LICENSE:=BSD-2-Clause
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
 
+CMAKE_OPTIONS += \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_SYSCONFDIR=/etc
 define Package/msd_lite
 	SECTION:=net
 	CATEGORY:=Network
