@@ -59,4 +59,4 @@ define Package/msd_lite/install
 endef
 
 
-$(eval $(call BuildPackage,msd_lite))
+  $(eval $(call BuildPackage,msd_lite))
