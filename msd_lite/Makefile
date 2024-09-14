@@ -24,7 +24,7 @@ define Package/msd_lite
 endef
 
 define Package/msd_lite/description
- Convert UDP IPTV streams into HTTP streams
+  Convert UDP IPTV streams into HTTP streams
 endef
 
 define Build/Prepare
@@ -58,5 +58,4 @@ define Package/msd_lite/install
   $(INSTALL_DATA) ./files/msd_lite.conf $(1)/etc/config/msd_lite
 endef
 
-
-  $(eval $(call BuildPackage,msd_lite))
+$(eval $(call BuildPackage,msd_lite))
