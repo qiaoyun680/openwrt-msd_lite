@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=msd_lite
-PKG_VERSION:=1.0.2 # 根据 GitHub release 或者你想要的版本
+PKG_VERSION:=1.0.2
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -43,12 +43,17 @@ endef
 define Package/msd_lite/install
   # 安装二进制文件到 /usr/sbin
   $(INSTALL_DIR) $(1)/usr/sbin
-  $(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/msd_lite $(1)/usr/sbin/
-  $(INSTALL_DIR) $(1)/etc/msd_lite
-  $(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/etc/msd_lite/msd_lite.conf.sample $(1)/etc/msd_lite/msd_lite.conf
+  $(INSTALL_BIN) $(PKG_BUILD_DIR)/msd_lite $(1)/usr/sbin/
 
+  # 安装默认配置文件
+  $(INSTALL_DIR) $(1)/etc/msd_lite
+  $(INSTALL_DATA) $(PKG_BUILD_DIR)/etc/msd_lite/msd_lite.conf.sample $(1)/etc/msd_lite/msd_lite.conf
+
+  # 安装 init.d 脚本
   $(INSTALL_DIR) $(1)/etc/init.d
-  $(INSTALL_DATA) ./files/msd_lite.init $(1)/etc/init.d/msd_lite
+  $(INSTALL_BIN) ./files/msd_lite.init $(1)/etc/init.d/msd_lite
+
+  # 安装 UCI 配置文件
   $(INSTALL_DIR) $(1)/etc/config
   $(INSTALL_DATA) ./files/msd_lite.conf $(1)/etc/config/msd_lite
 endef
