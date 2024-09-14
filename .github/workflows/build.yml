@@ -34,9 +34,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Apply patch
-        run: |
-          patch -p1 -v < msd_lite/patches/001-fix-install-directory.patch
+        
       - name: Install dependencies
         run: |
           sudo apt update
