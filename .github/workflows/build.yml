@@ -1,0 +1,85 @@
+name: Build OpenWrt IPK for msd_lite
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      update: ${{ env.update }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+
+      - name: Init Env
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          sudo timedatectl set-timezone "Asia/Shanghai"
+  build:
+    name: Build - ${{ matrix.target.arch }}
+    needs: check
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - arch: "x86_64"
+            sdk: "https://downloads.openwrt.org/releases/23.05.2/targets/x86/64/openwrt-sdk-23.05.2-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Apply patch
+        run: |
+          patch -p1 -v < msd_lite/patches/001-fix-install-directory.patch
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
+          bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib \
+          git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev \
+          libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libreadline-dev libssl-dev libtool lrzsz \
+          mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-pyelftools \
+          libpython3-dev qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip \
+          vim wget xmlto xxd zlib1g-dev python3-setuptools npm
+          sudo apt install --reinstall libc6
+          sudo systemctl daemon-reload
+          sudo apt -y autoremove --purge
+          sudo apt clean
+
+      - name: Install OpenWrt SDK
+        run: |
+          wget ${{ matrix.target.sdk }} -O openwrt-sdk.tar.xz
+          tar -xf openwrt-sdk.tar.xz
+          mv -f openwrt-sdk-* openwrt-sdk
+
+      - name: Build Package
+        run: |
+          git pull
+          cd openwrt-sdk
+          cp -rf ../msd_lite ./package/
+
+          rm -f .config
+          make defconfig
+
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
+          
+          make package/msd_lite/compile V=s
+          make package/msd_lite/luci-app-msd_lite/compile V=s
+          
+          ls
+          mkdir -p packed && find bin/ -type f -name '*msd_lite*' -exec mv -t packed {} +
+          ls
+
+      - name: Upload to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: msd_lite-${{ matrix.target.arch }}
+          path: openwrt-sdk/packed/*.ipk
+          if-no-files-found: error
