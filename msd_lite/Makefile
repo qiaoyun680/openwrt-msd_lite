@@ -34,6 +34,7 @@ endef
 
 define Build/Compile
 	# 使用 OpenWrt 的默认编译方式，通常会调用 make
+	ls $(PKG_BUILD_DIR)
 	$(MAKE) -C $(PKG_BUILD_DIR) \
 		CC="$(TARGET_CC)" \
 		CFLAGS="$(TARGET_CFLAGS)" \
