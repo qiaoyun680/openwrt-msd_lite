@@ -29,7 +29,7 @@ endef
 define Build/Prepare
 	$(call Build/Prepare/Default)
 	# 可以在这里进行源码的额外操作，例如打补丁
-	cp -r $(DL_DIR)/msd_lite-master $(PKG_BUILD_DIR)
+	cp -r $(TMP_DIR)/dl/msd_lite-master $(PKG_BUILD_DIR)
 
 endef
 
