@@ -20,9 +20,10 @@ include $(INCLUDE_DIR)/cmake.mk
 CMAKE_OPTIONS += \
 	-DCMAKE_INSTALL_PREFIX=/usr \
 	-DCMAKE_INSTALL_SYSCONFDIR=/etc \
-	-DCONFDIR=/etc/msd_lite \
+	-DCONFDIR=$(PKG_INSTALL_DIR)/etc/msd_lite \
 	-DRUNDIR=/var/run \
 	-DCMAKE_STAGING_PREFIX=$(STAGING_DIR_HOST)
+
 
 TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include
 TARGET_LDFLAGS += -L$(STAGING_DIR)/usr/lib
