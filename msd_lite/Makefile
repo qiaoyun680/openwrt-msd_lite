@@ -40,7 +40,7 @@ define Package/msd_lite/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/msd_lite $(1)/usr/bin/
 
 	$(INSTALL_DIR) $(1)/etc/msd_lite
-	$(INSTALL_CONF) $(PKG_INSTALL_DIR)/etc/msd_lite/msd_lite.conf.sample $(1)/etc/msd_lite/msd_lite.conf
+	$(INSTALL_CONF) $(PKG_INSTALL_DIR)/etc/msd_lite/msd_lite.conf $(1)/etc/msd_lite/msd_lite.conf
 
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/msd_lite.init $(1)/etc/init.d/msd_lite
