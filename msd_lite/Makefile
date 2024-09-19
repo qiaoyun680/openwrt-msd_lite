@@ -17,29 +17,13 @@ PKG_BUILD_PARALLEL:=1
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
 
-CMAKE_OPTIONS += \
-	-DCMAKE_INSTALL_PREFIX=/usr \
-	-DCMAKE_INSTALL_SYSCONFDIR=/etc \
-	-DCONFDIR=$(PKG_INSTALL_DIR)/etc/msd_lite \
-	-DRUNDIR=/var/run \
-	-DCMAKE_STAGING_PREFIX=$(STAGING_DIR_HOST)
 
-
-TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include
-TARGET_LDFLAGS += -L$(STAGING_DIR)/usr/lib
-
-define Build/Prepare
-	$(call Build/Prepare/Default)
-	$(SED) 's,/usr/local,/usr,g' $(PKG_BUILD_DIR)/CMakeLists.txt
-	$(SED) 's,/usr/etc,/etc,g' $(PKG_BUILD_DIR)/CMakeLists.txt
-endef
-
+T
 define Package/msd_lite
 	SECTION:=net
 	CATEGORY:=Network
 	TITLE:=Convert UDP IPTV streams into HTTP streams
 	URL:=https://github.com/rozhuk-im/msd_lite
-	DEPENDS:=+libbsd +libevent2 +libevent2-pthreads
 endef
 
 define Package/msd_lite/description
@@ -59,5 +43,6 @@ define Package/msd_lite/install
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) ./files/msd_lite.conf $(1)/etc/config/msd_lite
 endef
+
 
 $(eval $(call BuildPackage,msd_lite))
