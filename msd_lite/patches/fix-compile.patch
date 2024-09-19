@@ -6,5 +6,3 @@
  # Configs
 -install(CODE "FILE(MAKE_DIRECTORY ${CONFDIR})")
 +#install(CODE "FILE(MAKE_DIRECTORY ${CONFDIR})")
- 
- install_if_not_exists(conf/msd_lite.conf ${CONFDIR} "msd_lite.conf" ".sample")
