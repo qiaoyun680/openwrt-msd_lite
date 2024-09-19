@@ -29,6 +29,12 @@ define Package/msd_lite/description
 	Convert UDP IPTV streams into HTTP streams
 endef
 
+define Build/Prepare
+	$(call Build/Prepare/Default)
+	$(foreach PATCH,$(wildcard $(PKG_BUILD_DIR)/patches/*.patch), \
+		$(PATCH) -p1 < $(PATCH) || exit 1; )
+endef
+
 define Package/msd_lite/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/msd_lite $(1)/usr/bin/
