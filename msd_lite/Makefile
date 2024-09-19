@@ -18,7 +18,6 @@ include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
 
 
-T
 define Package/msd_lite
 	SECTION:=net
 	CATEGORY:=Network
