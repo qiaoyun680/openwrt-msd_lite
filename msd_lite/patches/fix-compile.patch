@@ -6,5 +6,5 @@
 -install_if_not_exists(conf/msd_lite.conf ${CONFDIR} "msd_lite.conf" ".sample")
 -
 -if (CMAKE_SYSTEM_NAME MATCHES "^.*BSD$|DragonFly")
--   install_script(os/freebsd/msd_lite "${CMAKE_INSTALL_PREFIX}/etc/rc.d/")
+-	install_script(os/freebsd/msd_lite "${CMAKE_INSTALL_PREFIX}/etc/rc.d/")
 -endif()
